@@ -7,11 +7,14 @@ import Tabs from "./Tabs";
 import DoctorAbout from "../../pages/Doctors/DoctorAbout";
 import starImg from "../../assets/images/Star.png";
 import Profile from "./Profile";
+import Appointment from "./Appointment";
 
 const Dashboard = () => {
   const { data, loading, error } = useGetProfile(
     `${BASE_URL}/doctors/profile/me`
   );
+
+  console.log(data);
 
   const [tab, setTab] = useState("overview");
   return (
@@ -56,21 +59,22 @@ const Dashboard = () => {
                       </figure>
                       <div>
                         <span className="bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-7 font-[600]">
-                          {data.specialization} Surgeon
+                          {data.specialization}
                         </span>
                         <h3 className="text-headingColor text-[22px] leading-[36px] mt-3 font-bold">
                           {data.name}
                         </h3>
                         <div className="flex items-center gap-[6px]">
                           <span className="flex items-center gap-[6px] text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[600] text-headingColor">
-                            <img src={starImg} alt="" />0
+                            <img src={starImg} alt="" />
+                            {data.averageRating}
                           </span>
                           <span className="text-[14px] leading-6 lg:text-[16px] lg:leading-7 font-[400] text-textColor">
-                            (0)
+                            ({data.totalRating})
                           </span>
                         </div>
                         <p className="text__para text-[15px] leading-6 lg:max-w-[390px]">
-                          doctor bio
+                          {data.bio}
                         </p>
                       </div>
                     </div>
@@ -83,32 +87,9 @@ const Dashboard = () => {
                   </div>
                 )}
                 {tab === "appointments" && (
-                  <div>
-                    <table className="w-full text-sm text-left text-gray-500 ">
-                      <thead className="text-xs text-gray-700 uppercase bg-gray-50  ">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            Name
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Gender
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Payment
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Price
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Booked on
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
+                  <Appointment appointments={data.appointments} />
                 )}
-                {tab === "profile" && <Profile />}
+                {tab === "profile" && <Profile doctorData={data} />}
               </div>
             </div>
           </div>

@@ -28,22 +28,23 @@ const header = () => {
   const menuRef = useRef(null); // Make sure you've correctly initialized menuRef
   const { user, role, token } = useContext(authContext);
 
-  const handleStickyHesder = () => {
+  const handleStickyHeader = () => {
     window.addEventListener("scroll", () => {
       if (
         document.body.scrollTop > 80 ||
         document.documentElement.scrollTop > 80
       ) {
-        headerRef.current.classlist.add("sticky__header");
+        headerRef.current.classList.add("sticky__header"); // Change to classList
       } else {
-        headerRef.current.classlist.remove("sticky__header");
+        headerRef.current.classList.remove("sticky__header"); // Change to classList
       }
     });
   };
-  useEffect(() => {
-    handleStickyHesder();
 
-    return () => window.removeEventListener("scroll", handleStickyHesder);
+  useEffect(() => {
+    handleStickyHeader();
+
+    return () => window.removeEventListener("scroll", handleStickyHeader);
   });
 
   const toggleMenu = () => {
@@ -71,9 +72,10 @@ const header = () => {
                     to={link.path}
                     className={(navClass) =>
                       navClass.isActive
-                        ? "'text-primaryColor text-[16px] leading-7  font-[600]"
-                        : "text-textColor text-[16px] leading-7  font-[500] hover:text-primaryColor"
+                        ? "text-primaryColor text-[16px] leading-7 font-[600]"
+                        : "text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor"
                     }
+                    activeClassName="text-primaryColor text-[16px] leading-7 font-[600]"
                   >
                     {link.display}
                   </NavLink>

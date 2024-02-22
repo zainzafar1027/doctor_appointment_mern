@@ -1,13 +1,13 @@
 import Review from './../models/reviewSchema.js'
 import { Doctor } from "../models/DoctorSchema.js";
 
-export const getAllReviews = async (req,res) =>{
+export const getAllReviews = async (req, res) => {
     try {
-        const reviews = await Review.find({})
+        const reviews = await Review.find({}).populate('user');
 
-        res.status(200).json({success: true,message:'Successful',data:reviews})
+        res.status(200).json({ success: true, message: 'Successful', data: reviews });
     } catch (err) {
-        res.status(404).json({success: false,message:'Not found'})
+        res.status(404).json({ success: false, message: 'Not found' });
     }
 }
 

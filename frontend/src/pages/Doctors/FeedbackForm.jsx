@@ -1,15 +1,50 @@
 import React, { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
+import { useParams } from "react-router";
+import { BASE_URL, token } from "../../config";
+import { toast } from "react-toastify";
+import HashLoader from "react-spinners/HashLoader";
 
 const FeedbackForm = () => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const { id } = useParams();
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
 
-    // later we will use with api,s
+    setLoading(true);
+    try {
+      if (!rating || !reviewText) {
+        setLoading(false);
+        return toast.error("Rating & Review field are required");
+      }
+      const res = await fetch(`${BASE_URL}/doctors/${id}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ rating, reviewText }),
+      });
+
+      const result = await res.json();
+      if (!res.ok) {
+        throw new Error(result.message);
+      }
+
+      setLoading(false);
+      toast.success(result.message);
+    } catch (err) {
+      setLoading(false);
+      console.error("Fetch Error:", err); // Log the fetch error to the console
+      toast.error(
+        "An error occurred while submitting feedback. Please try again later."
+      );
+    }
   };
 
   return (
@@ -59,7 +94,7 @@ const FeedbackForm = () => {
         ></textarea>
       </div>
       <button className="btn" onClick={handleSubmitReview} type="submit">
-        Submit Feedback
+        {loading ? <HashLoader size={25} color="#fff" /> : "Submit Feedback"}
       </button>
     </form>
   );

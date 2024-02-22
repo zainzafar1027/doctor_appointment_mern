@@ -10,12 +10,10 @@ const useFetchData = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const modifiedToken = token.replace(/[\/"]/g, "");
-
         const res = await fetch(url, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${modifiedToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
