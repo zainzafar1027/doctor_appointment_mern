@@ -15,11 +15,11 @@ import reviewRouter from "./review.js";
 
 router.use("/:doctorId/reviews", reviewRouter);
 
-router.get("/:id", authenticate, restrict(["doctor"]), getSingleDoctor);
+router.get("/:id", authenticate, getSingleDoctor);
 router.get("/", authenticate, getAllDoctors);
-router.put("/:id", authenticate, restrict(["doctor"]), updateDoctor);
-router.delete("/:id", authenticate, restrict(["doctor"]), deleteDoctor);
+router.put("/:id", authenticate, updateDoctor);
+router.delete("/:id", authenticate,  deleteDoctor);
 
-router.get("/profile/me", authenticate, restrict(["doctor",""]), getDoctorProfile);
+router.get("/profile/me", authenticate, restrict(["doctor"]), getDoctorProfile);
 
 export default router;

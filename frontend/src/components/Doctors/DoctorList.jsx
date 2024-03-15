@@ -8,6 +8,7 @@ import DoctorCard from "./DoctorCard";
 
 const DoctorList = () => {
   const { data: doctors, loading, error } = useFetchData(`${BASE_URL}/doctors`);
+  console.log(doctors);
   return (
     <>
       {loading && <Loader />}
